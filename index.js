@@ -1,4 +1,8 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
@@ -38,6 +42,13 @@ class Group {
 // app.get("/", (req, res) => {
 
 // });
+let port = 1000;
+app.listen(port,()=>{
+    console.log("http://localhost:"+port);
+})
+app.get("/",(req,res)=>{
+    res.sendFile(path.join(__dirname,"./front.html"));
+})
 app.get("/name", (req, res) => {
     let username = req.query.name;
     if (username) {
@@ -69,4 +80,8 @@ app.get("/count",(req,res)=>{
     }
     res.status(200);
     res.json({reason:"fulfiled"});
+});
+app.get("/show",(req,res)=>{
+    res.status(200);
+    res.json(Group.groups);
 })
